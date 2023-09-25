@@ -170,6 +170,8 @@ npm run build # build the js code/bridge
 npm test # ensure everything it's working fine
 ```
 
+NOTE: on Windows if running under gitbash, use winbuild:wasm:docker:dev and winbuild instead of the above
+
 ### Ubuntu / Debian / MacOS
 
 You need to install [emscripten](https://emscripten.org/) and ensure it is on your `PATH`.
