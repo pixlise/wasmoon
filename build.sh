@@ -12,11 +12,11 @@ else
     extension="$extension -O3 --closure 1"
 fi
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s/^#define LUA_32BITS\t0$/#define LUA_32BITS\t1/" ./lua/luaconf.h
-else
-    sed -i "s/^#define LUA_32BITS\t0$/#define LUA_32BITS\t1/" ./lua/luaconf.h
-fi
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#     sed -i '' "s/^#define LUA_32BITS\t0$/#define LUA_32BITS\t1/" ./lua/luaconf.h
+# else
+#     sed -i "s/^#define LUA_32BITS\t0$/#define LUA_32BITS\t1/" ./lua/luaconf.h
+# fi
 
 emcc \
     -s WASM=1 $extension -o ./build/glue.js \
@@ -32,6 +32,8 @@ emcc \
         'stringToUTF8', \
         'stringToNewUTF8'
     ]" \
+    -s ASYNCIFY=1 \
+    -s ASYNCIFY_IMPORTS=element \
     -s STRICT_JS=0 \
     -s MODULARIZE=1 \
     -s ALLOW_TABLE_GROWTH=1 \
@@ -198,8 +200,8 @@ emcc \
     ]" \
     ${LUA_SRC}
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s/^#define LUA_32BITS\t1$/#define LUA_32BITS\t0/" ./lua/luaconf.h
-else
-    sed -i "s/^#define LUA_32BITS\t1$/#define LUA_32BITS\t0/" ./lua/luaconf.h
-fi
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#     sed -i '' "s/^#define LUA_32BITS\t1$/#define LUA_32BITS\t0/" ./lua/luaconf.h
+# else
+#     sed -i "s/^#define LUA_32BITS\t1$/#define LUA_32BITS\t0/" ./lua/luaconf.h
+# fi

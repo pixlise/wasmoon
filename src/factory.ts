@@ -7,7 +7,12 @@ import version from 'package-version'
 export default class LuaFactory {
     private luaWasmPromise: Promise<LuaWasm>
 
-    public constructor(customWasmUri?: string, environmentVariables?: EnvironmentVariables) {
+    public constructor(
+        customWasmUri?: string,
+        environmentVariables?: EnvironmentVariables,
+        stdOutFunc?: (...data: any[]) => void,
+        stdErrFunc?: (...data: any[]) => void,
+    ) {
         if (customWasmUri === undefined) {
             const isBrowser =
                 (typeof window === 'object' && typeof window.document !== 'undefined') ||
@@ -19,7 +24,7 @@ export default class LuaFactory {
             }
         }
 
-        this.luaWasmPromise = LuaWasm.initialize(customWasmUri, environmentVariables)
+        this.luaWasmPromise = LuaWasm.initialize(customWasmUri, environmentVariables, stdOutFunc, stdErrFunc)
     }
 
     public async mountFile(path: string, content: string | ArrayBufferView): Promise<void> {

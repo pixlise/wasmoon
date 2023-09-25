@@ -21,10 +21,22 @@ interface ReferenceMetadata {
 }
 
 export default class LuaWasm {
-    public static async initialize(customWasmFileLocation?: string, environmentVariables?: EnvironmentVariables): Promise<LuaWasm> {
+    public static async initialize(
+        customWasmFileLocation?: string,
+        environmentVariables?: EnvironmentVariables,
+        stdOutFunc?: (...data: any[]) => void,
+        stdErrFunc?: (...data: any[]) => void,
+    ): Promise<LuaWasm> {
+        if (!stdOutFunc) {
+            stdOutFunc = console.log
+        }
+        if (!stdOutFunc) {
+            stdErrFunc = console.error
+        }
+
         const module: LuaEmscriptenModule = await initWasmModule({
-            print: console.log,
-            printErr: console.error,
+            print: stdOutFunc,
+            printErr: stdErrFunc,
             locateFile: (path: string, scriptDirectory: string) => {
                 return customWasmFileLocation || scriptDirectory + path
             },
