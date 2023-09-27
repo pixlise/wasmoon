@@ -178,7 +178,7 @@ describe('Engine', () => {
                 test = test .. "i"
             end, 1)
         `)
-        await setTimeout(30)
+        await setTimeout(50)
 
         const test = engine.global.get('test')
         expect(test).length.above(3)

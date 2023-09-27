@@ -1,5 +1,5 @@
 import { BaseDecorationOptions, Decoration } from '../decoration'
-import { LuaReturn, LuaState, LuaType } from '../types'
+import { LuaReturn, LuaState, LuaType, isPromise } from '../types'
 import { decorateFunction } from './function'
 import Global from '../global'
 import MultiReturn from '../multireturn'
@@ -150,7 +150,8 @@ class ProxyTypeExtension extends TypeExtension<any, ProxyDecorationOptions> {
                 }
             }
 
-            if (Promise.resolve(target) === target) {
+            //if (Promise.resolve(target) !== target) {
+            if (isPromise(target)) {
                 return false
             }
         } else if (options.proxy === false) {

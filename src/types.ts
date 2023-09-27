@@ -68,4 +68,8 @@ export enum LuaLibraries {
     Package = 'package',
 }
 
-export class LuaTimeoutError extends Error {}
+export class LuaTimeoutError extends Error { }
+
+export function isPromise(value: any): boolean {
+    return value["__zone_symbol__state"] !== undefined || value instanceof Promise;
+}

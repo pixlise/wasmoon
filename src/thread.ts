@@ -24,6 +24,7 @@ export interface OrderedExtension {
 // When the debug count hook is set, call it every X instructions.
 const INSTRUCTION_HOOK_COUNT = 1000
 
+
 export default class Thread {
     public readonly address: LuaState
     public readonly lua: LuaWasm
@@ -125,11 +126,11 @@ export default class Thread {
                         await lastValue
                     } else {
                         // If it's a non-promise, then skip a tick to yield for promises, timers, etc.
-                        await new Promise((resolve) => setImmediate(resolve))
+                        await new Promise((resolve) => this.setImmediate(resolve))
                     }
                 } else {
                     // If there's nothing to yield, then skip a tick to yield for promises, timers, etc.
-                    await new Promise((resolve) => setImmediate(resolve))
+                    await new Promise((resolve) => this.setImmediate(resolve))
                 }
 
                 resumeResult = this.resume(0)
@@ -407,5 +408,13 @@ export default class Thread {
 
     private getValueDecorations(value: any): Decoration {
         return value instanceof Decoration ? value : new Decoration(value, {})
+    }
+
+    private setImmediate(f: (value: unknown) => void): void {
+        if (typeof setImmediate === 'function') {
+            setImmediate(f)
+        } else {
+            setTimeout(f, 0)
+        }
     }
 }

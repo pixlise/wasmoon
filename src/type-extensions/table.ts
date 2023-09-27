@@ -1,5 +1,5 @@
 import { Decoration } from '../decoration'
-import { LUA_REGISTRYINDEX, LuaType } from '../types'
+import { LUA_REGISTRYINDEX, LuaType, isPromise } from '../types'
 import Global from '../global'
 import Thread from '../thread'
 import TypeExtension from '../type-extension'
@@ -39,7 +39,7 @@ class TableTypeExtension extends TypeExtension<TableType> {
     }
 
     public pushValue(thread: Thread, { target }: Decoration<TableType>, userdata?: Map<any, number>): boolean {
-        if (typeof target !== 'object' || target === null) {
+        if (typeof target !== 'object' || target === null || isPromise(target)) {
             return false
         }
 
