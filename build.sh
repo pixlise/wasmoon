@@ -35,7 +35,6 @@ emcc \
         'stringToUTF8', \
         'stringToNewUTF8'
     ]" \
-    -s ASYNCIFY=1 \
     -s STRICT_JS=0 \
     -s MODULARIZE=1 \
     -s ALLOW_TABLE_GROWTH=1 \
